@@ -2,7 +2,6 @@ Feature: As I user, I need to validate the clue API
 
   Background:
     * print 'URL: ', api.uri + '/clue/'
-
     * url api.uri
 
   Scenario: Detectar una pista en un manuscrito válido
