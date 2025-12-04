@@ -6,42 +6,22 @@ spring:
     url: ${DATABASE_URL}
     driver-class-name: org.postgresql.Driver
 
-    #Configuración del pool de conexiones Hikari (optimiza rendimiento)
-    hikari:
-      maximum-pool-size: 20           # Máximo de conexiones simultáneas a la BD
-      minimum-idle: 5                 # Conexiones que se mantienen abiertas en reposo
-      idle-timeout: 30000             # Tiempo (ms) antes de liberar conexiones inactivas
-      connection-timeout: 3000        # Timeout (ms) para obtener conexión del pool
-      max-lifetime: 1800000           # Máxima vida útil (ms) de una conexión
-      pool-name: HikariCP             # Nombre del pool (para logs)
-      auto-commit: true
-
   jpa:
     hibernate:
-      ddl-auto: update                # Mantiene el esquema actualizado
-    show-sql: false                   # Desactivar SQL en producción (menos CPU)
+      ddl-auto: update
+    show-sql: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: false
+        format_sql: true
 
 server:
   port: 8080
-
-  #Configuración HTTP para mantener conexiones activas y rápidas
-  tomcat:
-    connection-timeout: 10s
-    keep-alive-timeout: 15s
-    max-threads: 200                  # Maneja más peticiones concurrentes
-    accept-count: 100                 # Peticiones en cola si todos los hilos están ocupados
-
   error:
     include-message: always
 
-#Logging optimizado
 logging:
   level:
-    root: WARN
+    root: INFO
     org.springframework.web: INFO
-    org.hibernate.SQL: WARN
-    com.challenge.elowen.artifact_clue_detector: INFO
+    org.hibernate.SQL: DEBUG
