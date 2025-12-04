@@ -6,7 +6,7 @@ function fn(){
 
    return {
         api:{
-            uri: 'https://artifact-clue-detector.onrender.com'
+            uri: 'http://localhost:8080'
         }
 
     }
