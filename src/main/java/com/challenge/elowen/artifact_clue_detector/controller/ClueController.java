@@ -2,10 +2,10 @@ package com.challenge.elowen.artifact_clue_detector.controller;
 
 import com.challenge.elowen.artifact_clue_detector.model.Manuscript;
 import com.challenge.elowen.artifact_clue_detector.service.ArtifactClueService;
+import com.challenge.elowen.artifact_clue_detector.util.ClueResponseBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 @RestController
@@ -31,20 +31,11 @@ public class ClueController {
 
         Manuscript result = service.analyzeAndSave(manuscript);
 
-        if (result.isHasClue()) {
-            Map<String, Object> orderedResponse = new LinkedHashMap<>();
-            orderedResponse.put("hasClue", true);
-            orderedResponse.put("character", result.getClueCharacter());
-            orderedResponse.put("direction", result.getClueDirection());
-            orderedResponse.put("from", result.getFromPosition());
-            orderedResponse.put("to", result.getToPosition());
+        var response = ClueResponseBuilder.buildResponse(result);
 
-            return ResponseEntity.ok(orderedResponse);
-        } else {
-            Map<String, Object> response = new LinkedHashMap<>();
-            response.put("hasClue", false);
-            response.put("message", "No se encontró ninguna pista en el manuscrito.");
-            return ResponseEntity.status(403).body(response);
-        }
+        return result.isHasClue()
+                ? ResponseEntity.ok(response)
+                : ResponseEntity.status(403).body(response);
     }
+
 }
