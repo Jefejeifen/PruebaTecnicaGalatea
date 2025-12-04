@@ -5,6 +5,7 @@ import com.challenge.elowen.artifact_clue_detector.service.ArtifactClueService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @RestController
@@ -31,18 +32,19 @@ public class ClueController {
         Manuscript result = service.analyzeAndSave(manuscript);
 
         if (result.isHasClue()) {
-            return ResponseEntity.ok(Map.of(
-                    "hasClue", true,
-                    "character", result.getClueCharacter(),
-                    "direction", result.getClueDirection(),
-                    "from", result.getFromPosition(),
-                    "to", result.getToPosition()
-            ));
+            Map<String, Object> orderedResponse = new LinkedHashMap<>();
+            orderedResponse.put("hasClue", true);
+            orderedResponse.put("character", result.getClueCharacter());
+            orderedResponse.put("direction", result.getClueDirection());
+            orderedResponse.put("from", result.getFromPosition());
+            orderedResponse.put("to", result.getToPosition());
+
+            return ResponseEntity.ok(orderedResponse);
         } else {
-            return ResponseEntity.status(403).body(Map.of(
-                    "hasClue", false,
-                    "message", "No se encontró ninguna pista en el manuscrito."
-            ));
+            Map<String, Object> response = new LinkedHashMap<>();
+            response.put("hasClue", false);
+            response.put("message", "No se encontró ninguna pista en el manuscrito.");
+            return ResponseEntity.status(403).body(response);
         }
     }
 }
