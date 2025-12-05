@@ -54,8 +54,7 @@ Feature: As I user, I need to validate the clue API
     When method POST
     Then status 400
 
-
-  Scenario: Validar estructura básica del JSON
+  Scenario: Validar estructura basica del JSON
     Given path '/clue'
     And request
     """
