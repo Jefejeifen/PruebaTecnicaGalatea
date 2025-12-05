@@ -5,7 +5,7 @@ import com.intuit.karate.junit5.Karate;
 public class ClueRunner {
 
     @Karate.Test
-    Karate userRunner() {
+    Karate clueRunner() {
         return Karate.run("classpath:karate/clue/clue.feature");
     }
 
